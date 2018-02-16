@@ -1,2 +1,2 @@
 # Learn with Corey Schafer
-Different piece of code from Corey Schafer and other instructors
+Different pieces of code from Corey Schafer and other instructors
