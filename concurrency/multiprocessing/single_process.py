@@ -1,4 +1,5 @@
 import urllib.request
+import time
 
 sites = [
     'https://www.yahoo.com/',
@@ -29,6 +30,8 @@ def sitesize(url):
     with urllib.request.urlopen(url) as u:
         page = u.read()
         return url, len(page)
-
+t1 = time.time()
 for result in map(sitesize, sites):
     print(result)
+t2 = time.time()
+print(t2-t1)
