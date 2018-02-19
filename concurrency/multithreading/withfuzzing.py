@@ -13,11 +13,12 @@ def fuzz():
 
 counter = 0
 
-def worker():
+def worker(id):
+    print('worker id: ', id)
     'My job is to increment the counter and print the current count'
     global counter
 
-    fuzz()
+    #fuzz()
     oldcnt = counter
     fuzz()
     counter = oldcnt + 1
@@ -34,7 +35,7 @@ def worker():
 print('Starting up')
 fuzz()
 for i in range(10):
-    threading.Thread(target=worker).start()
-    fuzz()
+    threading.Thread(target=worker, args=[i]).start()
+fuzz()
 print('Finishing up')
 fuzz()

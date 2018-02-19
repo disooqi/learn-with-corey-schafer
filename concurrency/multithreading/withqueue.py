@@ -1,4 +1,13 @@
-import threading, queue
+import threading, time, random, queue
+
+##########################################################################################
+# Fuzzing is a technique for amplifying race condition errors to make them more visible
+
+FUZZ = True
+
+def fuzz():
+    if FUZZ:
+        time.sleep(random.random())
 
 ###########################################################################################
 
@@ -12,11 +21,17 @@ def counter_manager():
 
     while True:
         increment = counter_queue.get()
-        counter += increment
+        fuzz()
+        oldcnt = counter
+        fuzz()
+        counter = oldcnt + increment
+        fuzz()
+
+        fuzz()
+        counter_queue.task_done()
         print_queue.put([
             'The count is %d' % counter,
             '---------------'])
-        counter_queue.task_done()
 
 t = threading.Thread(target=counter_manager)
 t.daemon = True
@@ -31,9 +46,14 @@ def print_manager():
     'I have EXCLUSIVE rights to call the "print" keyword'
     while True:
         job = print_queue.get()
+        fuzz()
         for line in job:
-            print(line)
+            print(line, end='')
+            fuzz()
+            print()
+            fuzz()
         print_queue.task_done()
+        fuzz()
 
 t = threading.Thread(target=print_manager)
 t.daemon = True
@@ -45,16 +65,24 @@ del t
 def worker():
     'My job is to increment the counter and print the current count'
     counter_queue.put(1)
+    fuzz()
 
 print_queue.put(['Starting up'])
+fuzz()
+
 worker_threads = []
 for i in range(10):
     t = threading.Thread(target=worker)
     worker_threads.append(t)
     t.start()
+    fuzz()
 for t in worker_threads:
+    fuzz()
     t.join()
 
 counter_queue.join()
+fuzz()
 print_queue.put(['Finishing up'])
+fuzz()
 print_queue.join()
+fuzz()
