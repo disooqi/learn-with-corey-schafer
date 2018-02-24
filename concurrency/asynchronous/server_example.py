@@ -22,7 +22,7 @@ def reactor(host='localhost', port=9600):
     'Main event loop that triggers the appropriate business logic callbacks'
     s = socket.socket()
     s.bind((host, port))
-    s.listen(5)
+    s.listen(5) # tells the socket library that we want it to queue up as many as 5 connect requests (the normal max) before refusing outside connections.
     s.setblocking(0)          # Make asynchronous.  Never wait on a client socket.
     sessions[s] = None
     print('Server up, running, and waiting for call on %s %s' % (host, port))
@@ -32,7 +32,7 @@ def reactor(host='localhost', port=9600):
             ready_to_read, _, _ = select.select(sessions, [], [], 0.1)
             for c in ready_to_read:
                 if c is s:
-                    c, a = c.accept()
+                    c, a = c.accept() # Client Socket and a for address
                     connect(c, a)
                     continue
                 line = sessions[c].file.readline()
