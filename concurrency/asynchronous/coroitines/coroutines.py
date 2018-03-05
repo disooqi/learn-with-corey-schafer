@@ -11,20 +11,20 @@ def hello():
     print('diooqi!')
 
 #twisted
-from twisted.internet import reactor
-from twisted.internet.defer import inlineCallbacks, Deferred
-
-
-def sleep(secs):
-    d = Deferred()
-    reactor.callLater(secs, d.callback, None)
-    return d
-
-@inlineCallbacks
-def hello():
-    yield sleep(3)
-    print('Hello!')
-    reactor.stop()
+# from twisted.internet import reactor
+# from twisted.internet.defer import inlineCallbacks, Deferred
+#
+#
+# def sleep(secs):
+#     d = Deferred()
+#     reactor.callLater(secs, d.callback, None)
+#     return d
+#
+# @inlineCallbacks
+# def hello():
+#     yield sleep(3)
+#     print('Hello!')
+#     reactor.stop()
 
 
 
