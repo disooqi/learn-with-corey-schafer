@@ -11,6 +11,9 @@
 # Setting the number of processes is a bit of an art. If the code is CPU bound, the number of cores times two is a
 # reasonable starting point. If the code is IO bound, the number of cores can be much higher. Experimentation is the key.
 
+# interprocess communication in python
+# https://stackoverflow.com/questions/6920858/interprocess-communication-in-python
+
 import urllib.request
 from multiprocessing.pool import ThreadPool as Pool
 # from multiprocessing.pool import Pool
