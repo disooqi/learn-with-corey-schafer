@@ -4,8 +4,8 @@ import os
 import time
 import itertools
 
-def write_every_3_sec():
 
+def write_every_3_sec():
     f = open('2.txt', 'a', os.O_NONBLOCK)
     abc = itertools.cycle('abcdefghijklmnopqrstuvwxyz')
 
@@ -22,7 +22,7 @@ def read_every_5_sec():
     f = open('2.txt', 'r', os.O_NONBLOCK)
     while True:
         time.sleep(1)
-        print('reading byte %s :' % f.tell(), f.read(1))
+        print('reading byte %s :' % f.tell(), f.read(2))
 
 
 if __name__ == '__main__':
