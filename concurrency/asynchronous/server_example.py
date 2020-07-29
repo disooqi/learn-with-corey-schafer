@@ -4,6 +4,7 @@ Async Example
 Build a performant non-blocking server from scratch, how to isolate the user’s business logic in callbacks, how to
 write the callback logic in-line with generators, and how to schedule timed events.
 '''
+
 import socket, time, types, select
 from collections import namedtuple
 from heapq import heappush, heappop
@@ -48,10 +49,12 @@ def reactor(host='localhost', port=9600):
     finally:
         s.close()
 
+
 def connect(c, a):
     'Reactor logic for new connections'
     sessions[c] = Session(a, c.makefile())
     on_connect(c)                            # call into user's business logic
+
 
 def disconnect(c):
     'Reactor logic to end sessions'
@@ -61,13 +64,16 @@ def disconnect(c):
     del sessions[c]
     del callback[c]
 
+
 def add_task(event_time, task):
     'Helper function to schedule one-time tasks at specific time'
     heappush(events, ScheduledEvent(event_time, task))
 
+
 def call_later(delay, task):
     'Helper function to schedule one-time tasks after a given delay'
     add_task(time.time() + delay, task)
+
 
 def call_periodic(delay, interval, task):
     'Helper function to schedule recurring tasks'
@@ -88,6 +94,7 @@ def on_disconnect(c):
         g = generators.pop(c)
         g.close()
 
+
 @types.coroutine
 def readline(c):
     'A non-blocking readline to use with two-way generators'
@@ -99,6 +106,7 @@ def readline(c):
             disconnect(c)
     line = yield inner
     return line
+
 
 def sleep(c, delay):
     'A non-blocking sleep to use with two-way generators'
@@ -132,7 +140,7 @@ async def nbcaser(c):
                 mode = title
                 continue
             if mode is title and line == 'upper':
-                line = c.sendall(b'<switching to upper case mode>\r\n')
+                c.sendall(b'<switching to upper case mode>\r\n')
                 mode = upper
                 continue
             print(sessions[c].address, '-->', line)
