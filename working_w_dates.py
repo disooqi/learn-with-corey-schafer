@@ -1,3 +1,5 @@
+# For interchange of data between application I would prefer to use something like ISO8601, which uses the 'Z' suffix for UTC:
+
 import datetime
 import pytz
 import calendar
