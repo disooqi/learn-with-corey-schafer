@@ -74,8 +74,23 @@ print(datetime.datetime.strptime('Tue, Jan 23, 2018', '%a, %b %d, %Y'))
 # arrow package for easy dealing with datetime in python
 
 ###################################################################################
+# Time stamp
+# Using datetime Module
 
-balance = 5000
-interest_rate = 13*.01
-monthly_payment = 500
+import datetime;
+  
+current_time = datetime.datetime.now()
+  
+time_stamp = current_time.timestamp()
+print("Current timestamp:", time_stamp)  # Output: 'Current timestamp: 1625309785.482347'
+
+# Convert timestamp to date and time
+# datetime.fromtimestamp(timestamp, tz=None)
+
+from datetime import datetime  
+time_stamp = 1617295943.17321
+
+date_time = datetime.fromtimestamp(time_stamp, tz=None)
+print("The date and time is:", date_time)  # Output: 'The date and time is: 2021-04-01 16:52:23.173210'
+
 
