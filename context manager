@@ -1,0 +1,56 @@
+# Parsing TOML Files in Python
+
+"""
+# db_config.toml
+
+[database]
+host = "localhost"
+port = 5432
+database_name = "your_database_name"
+user = "your_username"
+password = "your_password"
+"""
+
+import tomllib
+import psycopg2
+
+with open('db_config.toml','rb') as file:
+	credentials = tomllib.load(file)['database']
+
+
+# Connect to the database
+with psycopg2.connect(**credentials) as conn:
+	# Inside this context, the connection is open and managed
+
+	with conn.cursor() as cur:
+    	# Inside this context, the cursor is open and managed
+
+    	cur.execute('SELECT * FROM my_table')
+    	result = cur.fetchall()
+            print(result)
+
+#################################################################################################
+# Managing Python Subprocesses
+
+import subprocess
+
+# Run an external command and capture its output
+with subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE, text=True) as process:
+	output, _ = process.communicate()
+	print(output)
+
+#################################################################################################
+# High-Precision Floating-Point Arithmetic
+
+from decimal import Decimal, localcontext
+
+with localcontext() as cur_context:
+    cur_context.prec = 40
+    a = Decimal(2)
+    b = Decimal(3)
+    print(a/b)
+
+# [References]
+# https://www.kdnuggets.com/3-interesting-uses-of-python-context-managers
+
+
